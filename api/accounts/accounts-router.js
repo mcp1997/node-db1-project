@@ -18,14 +18,29 @@ router.get('/:id', checkAccountId, (req, res) => {
 
 router.post('/', checkAccountPayload, checkAccountNameUnique, (req, res, next) => {
   // DO YOUR MAGIC
+  Account.create(req.body)
+    .then(created => {
+      res.status(201).json(created)
+    })
+    .catch(next)
 })
 
 router.put('/:id', checkAccountId, checkAccountPayload, checkAccountNameUnique, (req, res, next) => {
   // DO YOUR MAGIC
+  Account.updateById(req.params.id, req.body)
+    .then(updated => {
+      res.json(updated)
+    })
+    .catch(next)
 });
 
 router.delete('/:id', checkAccountId, (req, res, next) => {
   // DO YOUR MAGIC
+  Account.deleteById(req.params.id)
+    .then(() => {
+      res.json(req.account)
+    })
+    .catch(next)
 })
 
 router.use((err, req, res, next) => { // eslint-disable-line
